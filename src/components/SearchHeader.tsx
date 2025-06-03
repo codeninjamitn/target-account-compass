@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, Mic, MicOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface SearchHeaderProps {
@@ -28,6 +29,44 @@ const accountFeatures = [
 
 export function SearchHeader({ searchQuery, setSearchQuery, searchResults, setSearchResults }: SearchHeaderProps) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognitionInstance = new SpeechRecognition();
+      
+      recognitionInstance.continuous = false;
+      recognitionInstance.interimResults = false;
+      recognitionInstance.lang = 'en-US';
+
+      recognitionInstance.onstart = () => {
+        setIsListening(true);
+        console.log('Voice recognition started');
+      };
+
+      recognitionInstance.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        console.log('Voice recognition result:', transcript);
+        setSearchQuery(transcript);
+        setIsSearchFocused(true);
+      };
+
+      recognitionInstance.onend = () => {
+        setIsListening(false);
+        console.log('Voice recognition ended');
+      };
+
+      recognitionInstance.onerror = (event) => {
+        console.error('Voice recognition error:', event.error);
+        setIsListening(false);
+      };
+
+      setRecognition(recognitionInstance);
+    }
+  }, [setSearchQuery]);
 
   useEffect(() => {
     if (searchQuery.trim()) {
@@ -49,30 +88,60 @@ export function SearchHeader({ searchQuery, setSearchQuery, searchResults, setSe
     setIsSearchFocused(false);
   };
 
+  const toggleVoiceSearch = () => {
+    if (!recognition) {
+      alert('Voice search is not supported in your browser');
+      return;
+    }
+
+    if (isListening) {
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
+  };
+
   return (
     <div className="bg-red-600 text-white">
       <div className="max-w-4xl mx-auto px-4 py-4">
         <div className="flex items-center gap-4">
           <div className="text-2xl font-bold">Target</div>
           <div className="flex-1 relative">
-            <div className="relative">
+            <div className="relative flex items-center">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Search My Account..."
+                placeholder="Search My Account... (try voice search)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
-                className="pl-10 pr-10 bg-white text-black border-0 rounded-lg"
+                className="pl-10 pr-20 bg-white text-black border-0 rounded-lg"
               />
-              {searchQuery && (
-                <button
-                  onClick={clearSearch}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              <div className="absolute right-1 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
+                <Button
+                  onClick={toggleVoiceSearch}
+                  size="sm"
+                  variant="ghost"
+                  className={cn(
+                    "h-8 w-8 p-0 hover:bg-gray-100",
+                    isListening && "bg-red-100 text-red-600"
+                  )}
                 >
-                  <X className="h-4 w-4 text-gray-400" />
-                </button>
-              )}
+                  {isListening ? (
+                    <MicOff className="h-4 w-4" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </Button>
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="h-8 w-8 flex items-center justify-center hover:bg-gray-100 rounded"
+                  >
+                    <X className="h-4 w-4 text-gray-400" />
+                  </button>
+                )}
+              </div>
             </div>
             
             {/* Search Results Dropdown */}
@@ -98,7 +167,14 @@ export function SearchHeader({ searchQuery, setSearchQuery, searchResults, setSe
                 ) : searchQuery ? (
                   <div className="p-4 text-gray-500 text-center">No results found</div>
                 ) : (
-                  <div className="p-4 text-gray-500 text-center">Type to search account features</div>
+                  <div className="p-4 text-gray-500 text-center">
+                    Type to search account features or use voice search
+                    {isListening && (
+                      <div className="mt-2 text-red-600 font-medium">
+                        🎤 Listening...
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             )}
