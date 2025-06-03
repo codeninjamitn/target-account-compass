@@ -34,37 +34,40 @@ export function SearchHeader({ searchQuery, setSearchQuery, searchResults, setSe
 
   // Initialize speech recognition
   useEffect(() => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognitionInstance = new SpeechRecognition();
+    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
       
-      recognitionInstance.continuous = false;
-      recognitionInstance.interimResults = false;
-      recognitionInstance.lang = 'en-US';
+      if (SpeechRecognitionClass) {
+        const recognitionInstance = new SpeechRecognitionClass();
+        
+        recognitionInstance.continuous = false;
+        recognitionInstance.interimResults = false;
+        recognitionInstance.lang = 'en-US';
 
-      recognitionInstance.onstart = () => {
-        setIsListening(true);
-        console.log('Voice recognition started');
-      };
+        recognitionInstance.onstart = () => {
+          setIsListening(true);
+          console.log('Voice recognition started');
+        };
 
-      recognitionInstance.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        console.log('Voice recognition result:', transcript);
-        setSearchQuery(transcript);
-        setIsSearchFocused(true);
-      };
+        recognitionInstance.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          console.log('Voice recognition result:', transcript);
+          setSearchQuery(transcript);
+          setIsSearchFocused(true);
+        };
 
-      recognitionInstance.onend = () => {
-        setIsListening(false);
-        console.log('Voice recognition ended');
-      };
+        recognitionInstance.onend = () => {
+          setIsListening(false);
+          console.log('Voice recognition ended');
+        };
 
-      recognitionInstance.onerror = (event) => {
-        console.error('Voice recognition error:', event.error);
-        setIsListening(false);
-      };
+        recognitionInstance.onerror = (event) => {
+          console.error('Voice recognition error:', event.error);
+          setIsListening(false);
+        };
 
-      setRecognition(recognitionInstance);
+        setRecognition(recognitionInstance);
+      }
     }
   }, [setSearchQuery]);
 
