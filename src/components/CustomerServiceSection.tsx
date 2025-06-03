@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { MessageCircle, Phone, Bot, Shield, Clock, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -111,7 +110,7 @@ export function CustomerServiceSection() {
           ? ['Connect to live chat', 'Try different keywords', 'Browse FAQ topics']
           : ['Leave a message', 'Try different keywords', 'Browse FAQ topics']
       };
-      setBotMessages(prev => [...prev, botResponse]);
+      setBotMessages(prev => [...prev, noAnswerResponse]);
     }
   };
 
