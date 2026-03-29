@@ -1,73 +1,32 @@
-# Welcome to your Lovable project
+# Target Account Compass
 
-## Project info
+A prototype/mockup of an enhanced "My Account" experience for Target, featuring:
 
-**URL**: https://lovable.dev/projects/6c947d6a-ff09-40ea-820b-d89ea861679a
+- **🔍 Voice-Enabled Search** — iOS Spotlight-style search with voice activation to quickly find account features
+- **👨‍👩‍👧‍👦 Family Management** — Upgrade from Shopping Partners to a full Family concept with a Family Manager and member roles
+- **💬 Customer Service Integration** — Reach support via Live Chat, Phone, or an AI-powered Self-Service Chatbot connected to Help Center & FAQs, with seamless handoff to live agents
+- **📱 Account Verification Push** — Push-based identity verification when speaking with a phone representative
 
-## How can I edit this code?
+## Tech Stack
 
-There are several ways of editing your application.
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/6c947d6a-ff09-40ea-820b-d89ea861679a) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Getting Started
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Project Info
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+**Lovable URL**: https://lovable.dev/projects/6c947d6a-ff09-40ea-820b-d89ea861679a
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/6c947d6a-ff09-40ea-820b-d89ea861679a) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Built with ❤️ by [Amit Navare](https://github.com/codeninjamitn/) for the world from Bharat 🇮🇳
