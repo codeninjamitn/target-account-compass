@@ -25,7 +25,7 @@ npm run dev
 
 ## Project Info
 
-**Lovable URL**: https://lovable.dev/projects/6c947d6a-ff09-40ea-820b-d89ea861679a
+**App URL**: https://target-account-compass.lovable.app
 
 ---
 
